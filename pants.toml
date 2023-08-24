@@ -82,6 +82,7 @@ default_resolve = "release-core"
 
 [python.resolves]
 release-core = "py/release-core/3rdparty/release-core.lock"
+release-django4 = "py/release-django4/3rdparty/release-django4.lock"
 
 [docformatter]
 args = ["--wrap-summaries=100", "--wrap-descriptions=100"]

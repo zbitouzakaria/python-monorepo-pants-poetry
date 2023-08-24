@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "org-django-project"
+version = "0.0.0"
+description = ""
+authors = []
+packages = [{include = "org"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+orjson = "^3.8.0"
+org-lib = { path = "../../../libs/lib1", develop=true}  # Can use libs
+django = "^4.2.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
