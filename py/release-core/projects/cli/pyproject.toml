@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "org-cli"
+version = "0.0.0"
+description = ""
+authors = []
+packages = [{include = "org"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rich = "^12.6.0"
+org-lib = { path = "../../../libs/lib1", develop=true}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

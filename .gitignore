@@ -1,0 +1,7 @@
+py/*/.venv
+py/*/poetry.lock
+py/*/poetry.toml
+.poetry.toml
+__pycache__
+.pants.d
+.pids

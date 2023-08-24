@@ -1,0 +1,90 @@
+[GLOBAL]
+pants_version = "2.16.0"
+backend_packages = [
+  # Base Python backend
+  "pants.backend.python",
+  # For fmts, run black last
+  "pants.backend.python.lint.pyupgrade",
+  "pants.backend.python.lint.docformatter",
+  "pants.backend.python.lint.isort",
+  "pants.backend.python.lint.black",
+  # For lints, Ruff first since it's the fastest
+  "pants.backend.experimental.python.lint.ruff",
+  "pants.backend.python.lint.bandit",
+  "pants.backend.python.lint.pylint",
+  # Allow to declare mixed CPython constraints
+  "pants.backend.python.mixed_interpreter_constraints",
+  # Docker support and lint
+  "pants.backend.docker",
+  "pants.backend.docker.lint.hadolint",
+  # Engine to format BUILD files
+  "pants.backend.build_files.fmt.black",
+  # cf. https://www.pantsbuild.org/docs/validating-dependencies
+  "pants.backend.experimental.visibility",
+]
+# We could use pants_ignore to ignore sandbox projects but I'm afraid default values
+# could change and we'll be introducting subtle bugs in Pants' behaviour
+# pants_ignore = [
+#   # Default pants_ignore values
+#   ".*/",
+#   "/dist/",
+#   "__pycache__",
+#   # Ignore all sandbox projects
+#   "py/sandbox/"
+# ]
+
+# Are these two options sufficiant ?
+build_ignore = [
+  # Ignore all sandbox projects
+  "py/sandbox/**"
+]
+
+[tailor]
+ignore_paths = [
+  # Ignore all sandbox projects
+  "py/sandbox/**"
+]
+
+[source]
+root_patterns = [
+  "/py/release-*/projects/*",
+  "/py/libs/*",
+]
+
+[python-bootstrap]
+search_path = [
+    # This will use all interpreters in `$(pyenv root)/versions`.
+    # We force pyenv use for getting Python versions, in order to live with different interpreter
+    # versions sanely
+    "<PYENV>",
+
+    # TODO: We need to add the path to the interpreter in the CI (or maybe also use pyenv ?)
+]
+
+[python-infer]
+# Infer dependencies from strings that look like module/class names, such as are often
+# found in settings.py, where dependencies are enumerated as strings and not directly imported.
+string_imports = true
+
+# Commented out for now, we might benefit from isolating pytest and other related tools
+# [pytest]
+# lockfile = "lockfiles/pytest.lock"
+# version = "pytest>=6.2.4,<6.3"
+# extra_requirements.add = [
+#   "pytest-django>=4,<5",
+# ]
+
+[python]
+# Our code should support all py 3.10 and upwards
+interpreter_constraints = ["CPython>=3.10,<4.0"]
+enable_resolves = true
+default_resolve = "release-core"
+
+[python.resolves]
+release-core = "py/release-core/3rdparty/release-core.lock"
+
+[docformatter]
+args = ["--wrap-summaries=100", "--wrap-descriptions=100"]
+
+[anonymous-telemetry]
+enabled = false
